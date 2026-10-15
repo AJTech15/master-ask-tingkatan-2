@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Master ASK Tingkatan 2 - Buku Nota & Pecutan UASA</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX CSS & JS for Rendering Mathematical Notation -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .tab-active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .active-nav {
+            background-color: #1e293b;
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Print Specific Styling */
+        @media print {
+            aside, #mobileMenuBtn, button:not(.printable-btn), .no-print {
+                display: none !important;
+            }
+            body, main {
+                background: white !important;
+                color: black !important;
+                overflow: visible !important;
+            }
+            section {
+                display: block !important;
+                page-break-after: always;
+            }
+            .print-full-width {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl {
+                box-shadow: none !important;
+            }
+            .border {
+                border-color: #ccc !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col md:flex-row">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="w-full md:w-64 bg-slate-900 text-slate-200 flex-shrink-0 transition-all duration-300 z-30 md:min-h-screen flex flex-col">
+        <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/30">
+                    <i class="fa-solid font-bold text-xl fa-code"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base tracking-wide text-white leading-tight">Master ASK T2</h1>
+                    <span class="text-xs text-sky-400 font-medium">Buku Nota & Pecutan UASA</span>
+                </div>
+            </div>
+            <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden text-slate-400 hover:text-white focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <nav id="navMenu" class="hidden md:block flex-1 p-4 space-y-1 overflow-y-auto">
+            <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Navigasi Utama</div>
+            
+            <a href="#dashboard" id="nav-dashboard" onclick="showSection('dashboard')" class="nav-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition active-nav">
+                <i class="fa-solid fa-gauge-high w-5 text-sky-400"></i>
+                <span class="text-sm font-medium">Papan Pemuka</span>
+            </a>
+
+            <a href="#nota" id="nav-nota" onclick="showSection('nota')" class="nav-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <i class="fa-solid fa-book-open-reader w-5 text-emerald-400"></i>
+                <span class="text-sm font-medium">Buku Nota Terperinci</span>
+            </a>
+
+            <a href="#kad-imbas" id="nav-kad-imbas" onclick="showSection('kad-imbas')" class="nav-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <i class="fa-solid fa-clone w-5 text-amber-400"></i>
+                <span class="text-sm font-medium">Kad Imbas PAT (45)</span>
+            </a>
+
+            <a href="#pat" id="nav-pat" onclick="showSection('pat')" class="nav-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <i class="fa-solid fa-file-pen w-5 text-indigo-400"></i>
+                <span class="text-sm font-medium">Latihan Pecutan UASA</span>
+            </a>
+
+            <a href="#playground" id="nav-playground" onclick="showSection('playground')" class="nav-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                <i class="fa-solid fa-terminal w-5 text-pink-400"></i>
+                <span class="text-sm font-medium">Python & HTML Sandbox</span>
+            </a>
+
+            <div class="pt-4 px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Media & Flipbook</div>
+            
+            <a href="https://online.fliphtml5.com/AJTECHSTUDIOS/T2-ASK-BAB-3-LT/" target="_blank" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-sky-300 transition group">
+                <i class="fa-solid fa-book-open w-5 text-sky-400 group-hover:scale-110 transition-transform"></i>
+                <span class="text-sm font-medium">Flipbook Bab 3 LT</span>
+                <i class="fa-solid fa-up-right-from-square text-xs text-slate-500 ml-auto"></i>
+            </a>
+
+            <a href="https://www.youtube.com/watch?v=qbYC9y35xp8" target="_blank" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-red-400 transition group">
+                <i class="fa-brands fa-youtube w-5 text-red-500 group-hover:scale-110 transition-transform"></i>
+                <span class="text-sm font-medium">Video Tutorial YT</span>
+                <i class="fa-solid fa-up-right-from-square text-xs text-slate-500 ml-auto"></i>
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-800 hidden md:block">
+            <div class="bg-slate-800/80 rounded-xl p-3 border border-slate-700/50">
+                <div class="flex items-center space-x-2 text-xs text-slate-400 mb-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Modul Selaras KSSM DSKP</span>
+                </div>
+                <p class="text-xs text-slate-300 font-medium">ASK Tingkatan 2</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 min-h-screen flex flex-col print-full-width">
+        <!-- Toast Notification Box -->
+        <div id="toast" class="hidden fixed top-4 right-4 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl z-50 flex items-center space-x-3 border border-slate-700 transition-all duration-300">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+            <span id="toastMessage" class="text-sm font-medium">Notifikasi</span>
+        </div>
+
+        <!-- SECTION 1: DASHBOARD -->
+        <section id="section-dashboard" class="p-4 md:p-8 space-y-6">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-sky-700 via-indigo-700 to-slate-900 text-white p-6 md:p-10 shadow-xl">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-sky-100 border border-white/20">
+                        <i class="fa-solid fa-sparkles mr-2 text-amber-300"></i> Modul Pembelajaran Interaktif KSSM
+                    </span>
+                    <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
+                        Modul Master & Pecutan UASA ASK Tingkatan 2
+                    </h2>
+                    <p class="text-slate-200 text-sm md:text-base leading-relaxed">
+                        Akses <strong class="text-amber-300">Buku Nota DSKP Terperinci Lengkap</strong>, Kad Imbas Ulang Kaji (Kemajuan & Mod Grid), Cetak Soalan Nota Hardcopy, serta Latihan Soalan UASA Bersepadu.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="showSection('pat')" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-sm transition shadow-lg shadow-amber-400/20 inline-flex items-center space-x-2">
+                            <i class="fa-solid fa-file-pen"></i>
+                            <span>Mula Pecutan UASA (70 Markah)</span>
+                        </button>
+                        <button onclick="showSection('nota')" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-sm transition shadow-lg inline-flex items-center space-x-2">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>Buka Buku Nota Terperinci</span>
+                        </button>
+                        <button onclick="showSection('kad-imbas')" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm backdrop-blur-md border border-white/20 transition inline-flex items-center space-x-2">
+                            <i class="fa-solid fa-clone text-amber-300"></i>
+                            <span>Kad Imbas PAT (45)</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+            </div>
+
+            <!-- Quick Access Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div onclick="showSection('pat')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-indigo-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-indigo-600 transition">Soalan UASA</h3>
+                    <p class="text-xs text-slate-500 mb-4">Set Latihan UASA 70 Markah (Bahagian A, B, & C) lengkap skema.</p>
+                    <span class="text-xs font-semibold text-indigo-600 inline-flex items-center group-hover:translate-x-1 transition-transform">
+                        Mula Jawab <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </div>
+
+                <div onclick="showSection('kad-imbas')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-amber-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-clone"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-amber-600 transition">Kad Imbas PAT</h3>
+                    <p class="text-xs text-slate-500 mb-4">45 Soalan Ulang Kaji Sepantas Kilat dengan sistem Penanda Dikuasai & Grid View.</p>
+                    <span class="text-xs font-semibold text-amber-600 inline-flex items-center group-hover:translate-x-1 transition-transform">
+                        Mula Flashcard <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </div>
+
+                <div onclick="showSection('nota')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-emerald-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-emerald-600 transition">Buku Nota DSKP Lengkap</h3>
+                    <p class="text-xs text-slate-500 mb-4">Nota padat & terperinci mengikut DSKP Bab 1, 2, dan 3 berserta butang Cetak Nota.</p>
+                    <span class="text-xs font-semibold text-emerald-600 inline-flex items-center group-hover:translate-x-1 transition-transform">
+                        Baca Nota <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </div>
+
+                <div onclick="showSection('playground')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:border-pink-300 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-pink-600 transition">Python Sandbox</h3>
+                    <p class="text-xs text-slate-500 mb-4">Simulasi dan uji atur cara secara terus dalam browser.</p>
+                    <span class="text-xs font-semibold text-pink-600 inline-flex items-center group-hover:translate-x-1 transition-transform">
+                        Uji Kod <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: BUKU NOTA DSKP TERPERINCI -->
+        <section id="section-nota" class="hidden p-4 md:p-8 space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold">Modul DSKP Lengkap & Terperinci</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-1">Buku Nota Standard DSKP ASK Tingkatan 2</h2>
+                    <p class="text-xs md:text-sm text-slate-500">Nota terperinci bagi Bab 1 (Perwakilan Data), Bab 2 (Algoritma), Bab 3 (Kod Arahan) & Pecutan Akhir.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="window.print()" class="no-print px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Cetak Nota / Hardcopy</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subtab Navigation for Book Module -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-200 overflow-x-auto bg-slate-50 no-print">
+                    <button onclick="switchNotaTab('nota1')" id="tab-nota1" class="px-6 py-3.5 text-xs md:text-sm font-semibold text-slate-600 hover:text-emerald-600 tab-active transition whitespace-nowrap">
+                        Bab 1: Perwakilan Data
+                    </button>
+                    <button onclick="switchNotaTab('nota2')" id="tab-nota2" class="px-6 py-3.5 text-xs md:text-sm font-semibold text-slate-600 hover:text-emerald-600 transition whitespace-nowrap">
+                        Bab 2: Algoritma
+                    </button>
+                    <button onclick="switchNotaTab('nota3')" id="tab-nota3" class="px-6 py-3.5 text-xs md:text-sm font-semibold text-slate-600 hover:text-emerald-600 transition whitespace-nowrap">
+                        Bab 3: Kod Arahan
+                    </button>
+                    <button onclick="switchNotaTab('nota-pecutan')" id="tab-nota-pecutan" class="px-6 py-3.5 text-xs md:text-sm font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 transition whitespace-nowrap flex items-center gap-1.5">
+                        <i class="fa-solid fa-bolt text-amber-500"></i>
+                        <span>Ringkasan Pecutan Akhir</span>
+                    </button>
+                </div>
+
+                <!-- NOTA BAB 1 (LENGKAP DSKP) -->
+                <div id="content-nota1" class="p-6 space-y-8">
+                    <!-- 1.1 Sistem Nombor Perlapanan -->
+                    <div class="space-y-4">
+                        <div class="bg-sky-700 text-white p-4 rounded-xl flex items-center justify-between">
+                            <h3 class="text-base md:text-lg font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-microchip"></i>
+                                <span>1.1 Sistem Nombor Perlapanan (Asas 8 / Oktal)</span>
+                            </h3>
+                            <span class="text-xs bg-sky-800 px-3 py-1 rounded-lg">DSKP 1.1.1 - 1.1.4</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs sm:text-sm">
+                            <div class="p-5 bg-sky-50/50 rounded-2xl border border-sky-100 space-y-3">
+                                <h4 class="font-bold text-sky-900 text-sm border-b border-sky-200 pb-2">1.1.1 Perbezaan Nombor Perlapanan & Perpuluhan</h4>
+                                <ul class="space-y-2 text-slate-700 list-disc pl-4">
+                                    <li><strong>Sistem Nombor Perpuluhan (Asas 10 / Desimal):</strong> Sistem nombor yang digunakan secara harian. Terdiri daripada 10 digit: <code>0, 1, 2, 3, 4, 5, 6, 7, 8, 9</code>. Nilai tempat: $10^0=1, 10^1=10, 10^2=100, 10^3=1000$.</li>
+                                    <li><strong>Sistem Nombor Perlapanan (Asas 8 / Oktal):</strong> Terdiri daripada 8 digit sahaja: <code>0, 1, 2, 3, 4, 5, 6, 7</code> (tiada digit 8 atau 9). Nombor ditanda dengan subskrip 8 ($N_8$). Nilai tempat berasaskan kuasa 8: $8^0=1, 8^1=8, 8^2=64, 8^3=512, 8^4=4096$.</li>
+                                </ul>
+                                <div class="bg-white p-3 rounded-xl border border-sky-200">
+                                    <p class="font-bold text-sky-800 mb-1">Jadual Nilai Tempat Nombor Perlapanan:</p>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-center border-collapse border border-slate-300 text-xs">
+                                            <tr class="bg-sky-100 font-bold">
+                                                <td class="border border-slate-300 p-1">Kedudukan (Dari Kanan)</td>
+                                                <td class="border border-slate-300 p-1">Ke-4</td>
+                                                <td class="border border-slate-300 p-1">Ke-3</td>
+                                                <td class="border border-slate-300 p-1">Ke-2</td>
+                                                <td class="border border-slate-300 p-1">Ke-1</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-slate-300 p-1 font-semibold">Kuasa 8</td>
+                                                <td class="border border-slate-300 p-1">$8^3$</td>
+                                                <td class="border border-slate-300 p-1">$8^2$</td>
+                                                <td class="border border-slate-300 p-1">$8^1$</td>
+                                                <td class="border border-slate-300 p-1">$8^0$</td>
+                                            </tr>
+                                            <tr class="bg-slate-50 font-mono">
+                                                <td class="border border-slate-300 p-1 font-semibold">Nilai Tempat</td>
+                                                <td class="border border-slate-300 p-1">512</td>
+                                                <td class="border border-slate-300 p-1">64</td>
+                                                <td class="border border-slate-300 p-1">8</td>
+                                                <td class="border border-slate-300 p-1">1</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-5 bg-slate-900 text-slate-200 rounded-2xl space-y-3">
+                                <h4 class="font-bold text-amber-400 text-sm border-b border-slate-800 pb-2">1.1.2 Penukaran Nombor Perpuluhan kepada Perlapanan</h4>
+                                <p><strong>Kaedah Bahagi Berulang dengan 8:</strong> Nombor perpuluhan dibahagikan dengan 8 secara berulang sehingga hasilnya 0, dan baki pembahagian dicatat dari bawah ke atas.</p>
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-sky-300 space-y-1">
+                                    <p class="font-bold text-white">Contoh: Tukar $237_{10}$ kepada Perlapanan</p>
+                                    <p>237 ÷ 8 = 29 baki 5  ↑ (Tulis dulu)</p>
+                                    <p> 29 ÷ 8 =  3 baki 5  |</p>
+                                    <p>  3 ÷ 8 =  0 baki 3  | (Arah Baca Baki)</p>
+                                    <p class="text-amber-400 font-bold mt-2">Jawapan: $237_{10} = 355_8$</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm pt-2">
+                            <div class="p-5 bg-white rounded-2xl border border-slate-200 space-y-3">
+                                <h4 class="font-bold text-indigo-900 text-sm border-b pb-2">1.1.3 Penukaran Perlapanan kepada Perduaan & Sebaliknya</h4>
+                                <p class="text-slate-700">Setiap <strong>1 digit nombor perlapanan</strong> mewakili <strong>3 bit nombor perduaan</strong> ($2^3 = 8$).</p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-center border text-xs">
+                                        <tr class="bg-slate-100 font-bold">
+                                            <td class="border p-1">Perlapanan</td>
+                                            <td class="border p-1">0</td><td class="border p-1">1</td><td class="border p-1">2</td><td class="border p-1">3</td><td class="border p-1">4</td><td class="border p-1">5</td><td class="border p-1">6</td><td class="border p-1">7</td>
+                                        </tr>
+                                        <tr class="font-mono">
+                                            <td class="border p-1 font-bold bg-slate-50">3-Bit Perduaan</td>
+                                            <td class="border p-1">000</td><td class="border p-1">001</td><td class="border p-1">010</td><td class="border p-1">011</td><td class="border p-1">100</td><td class="border p-1">101</td><td class="border p-1">110</td><td class="border p-1">111</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <p class="text-slate-600"><strong>Contoh Penukaran $528_8$:</strong> 5 $\rightarrow$ 101, 2 $\rightarrow$ 010. Maka $52_8 = 101010_2$.</p>
+                            </div>
+
+                            <div class="p-5 bg-white rounded-2xl border border-slate-200 space-y-3">
+                                <h4 class="font-bold text-emerald-900 text-sm border-b pb-2">1.1.4 Penukaran Perlapanan kepada Teks ASCII</h4>
+                                <p class="text-slate-700">Komputer menukar kod perlapanan kepada nilai nombor perpuluhan terlebih dahulu, kemudian dirujuk kepada jadual pengekodan ASCII untuk mewakili aksara teks.</p>
+                                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 text-xs">
+                                    <p><strong>Contoh:</strong> $101_8 = (1 \times 64) + (0 \times 8) + (1 \times 1) = 65_{10}$.</p>
+                                    <p class="mt-1">Dalam Carta ASCII Perpuluhan: Nilai 65 mewakili aksara <strong>'A'</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1.2 Sistem Nombor Perenambelasan -->
+                    <div class="space-y-4 pt-6 border-t border-slate-200">
+                        <div class="bg-indigo-700 text-white p-4 rounded-xl flex items-center justify-between">
+                            <h3 class="text-base md:text-lg font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-palette"></i>
+                                <span>1.2 Sistem Nombor Perenambelasan (Asas 16 / Heksadesimal)</span>
+                            </h3>
+                            <span class="text-xs bg-indigo-800 px-3 py-1 rounded-lg">DSKP 1.2.1 - 1.2.4</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs sm:text-sm">
+                            <div class="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-3">
+                                <h4 class="font-bold text-indigo-900 text-sm border-b border-indigo-200 pb-2">1.2.1 Ciri-Ciri Nombor Perenambelasan</h4>
+                                <p class="text-slate-700">Menggunakan 16 digit: <strong>0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F</strong>.</p>
+                                <div class="bg-white p-3 rounded-xl border border-indigo-200">
+                                    <p class="font-bold text-indigo-800 mb-1">Nilai Abjad perenambelasan:</p>
+                                    <p class="font-mono text-xs">A = 10 | B = 11 | C = 12 | D = 13 | E = 14 | F = 15</p>
+                                </div>
+                                <p class="text-slate-700">Nilai tempat berasaskan kuasa 16: $16^0=1, 16^1=16, 16^2=256, 16^3=4096$. Setiap 1 digit perenambelasan mewakili <strong>4 bit perduaan</strong> ($2^4 = 16$).</p>
+                            </div>
+
+                            <div class="p-5 bg-slate-900 text-slate-200 rounded-2xl space-y-3">
+                                <h4 class="font-bold text-amber-400 text-sm border-b border-slate-800 pb-2">1.2.2 & 1.2.3 Penukaran Nombor Perenambelasan</h4>
+                                <p><strong>Perpuluhan ke Perenambelasan:</strong> Bahagi berulang dengan 16 dan catat baki dari bawah ke atas.</p>
+                                <p><strong>Perenambelasan ke Perduaan:</strong> Tukar setiap digit ke 4-bit perduaan.</p>
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-sky-300">
+                                    <p>Contoh: $2F_{16}$ ke Perduaan</p>
+                                    <p>2 $\rightarrow$ 0010 | F (15) $\rightarrow$ 1111</p>
+                                    <p class="text-amber-400 font-bold mt-1">Jawapan: $2F_{16} = 00101111_2$</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 text-xs sm:text-sm space-y-3">
+                            <h4 class="font-bold text-slate-800 text-sm border-b pb-2">1.2.4 Kepentingan Perenambelasan Dalam Komputer (Kod Warna RGB)</h4>
+                            <p class="text-slate-700">Sistem perenambelasan digunakan secara meluas dalam reka bentuk web bagi perwakilan <strong>Kod Warna RGB (Red, Green, Blue)</strong> dalam format <code>#RRGGBB</code>.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs text-center">
+                                <div class="p-3 bg-red-100 border border-red-300 rounded-xl text-red-900">
+                                    <strong>Merah Penuh:</strong> #FF0000<br>(R:255, G:0, B:0)
+                                </div>
+                                <div class="p-3 bg-emerald-100 border border-emerald-300 rounded-xl text-emerald-900">
+                                    <strong>Hijau Penuh:</strong> #00FF00<br>(R:0, G:255, B:0)
+                                </div>
+                                <div class="p-3 bg-blue-100 border border-blue-300 rounded-xl text-blue-900">
+                                    <strong>Biru Penuh:</strong> #0000FF<br>(R:0, G:0, B:255)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTA BAB 2 (LENGKAP DSKP) -->
+                <div id="content-nota2" class="hidden p-6 space-y-8">
+                    <div class="bg-indigo-700 text-white p-4 rounded-xl flex items-center justify-between">
+                        <h3 class="text-base md:text-lg font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-sitemap"></i>
+                            <span>2.1 Pembangunan Algoritma</span>
+                        </h3>
+                        <span class="text-xs bg-indigo-800 px-3 py-1 rounded-lg">DSKP 2.1.1 - 2.1.3</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs sm:text-sm">
+                        <!-- Struktur Pilihan Bersarang -->
+                        <div class="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-3">
+                            <h4 class="font-bold text-indigo-900 text-sm border-b border-indigo-200 pb-2">2.1.1 Struktur Kawalan Pilihan Bersarang (Nested If)</h4>
+                            <p class="text-slate-700">Struktur pilihan di mana wujud <strong>struktur pilihan lain di dalam salah satu cabangnya</strong> (sama ada cabang YA atau TIDAK).</p>
+                            <div class="bg-white p-3 rounded-xl border border-indigo-200 font-mono text-xs">
+                                <p class="text-indigo-800 font-bold">Contoh Pseudokod Pilihan Bersarang:</p>
+                                <p class="pl-2">1. MULA</p>
+                                <p class="pl-2">2. INPUT umur</p>
+                                <p class="pl-2">3. JIKA umur >= 18 MAKA</p>
+                                <p class="pl-6 text-emerald-700 font-semibold">JIKA ada_lesen == 'YA' MAKA</p>
+                                <p class="pl-10 text-emerald-700">CETAK "Boleh memandu"</p>
+                                <p class="pl-6 text-emerald-700">Lain JIKA</p>
+                                <p class="pl-10 text-emerald-700">CETAK "Sila ambil lesen"</p>
+                                <p class="pl-2">4. TAMAT JIKA</p>
+                                <p class="pl-2">5. TAMAT</p>
+                            </div>
+                        </div>
+
+                        <!-- Struktur Ulangan -->
+                        <div class="p-5 bg-slate-900 text-slate-200 rounded-2xl space-y-3">
+                            <h4 class="font-bold text-amber-400 text-sm border-b border-slate-800 pb-2">2.1.1 Struktur Kawalan Ulangan (FOR & WHILE)</h4>
+                            <ul class="space-y-2 list-disc pl-4 text-slate-300">
+                                <li><strong>Struktur Ulangan FOR:</strong> Digunakan apabila <strong>bilangan ulangan telah diketahui dengan pasti</strong> sebelum proses bermula. Menggunakan pemboleh ubah pembilang (counter).</li>
+                                <li><strong>Struktur Ulangan WHILE:</strong> Digunakan apabila <strong>bilangan ulangan TIDAK diketahui</strong>. Proses diulang selagi syarat yang diuji adalah <strong>BENAR (True)</strong>.</li>
+                            </ul>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-sky-300">
+                                <p class="font-bold text-white">Contoh Ulangan WHILE Python:</p>
+                                <p>kira = 1</p>
+                                <p>while kira <= 3:</p>
+                                <p class="pl-4">print("Syabas!")</p>
+                                <p class="pl-4">kira = kira + 1</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Semakan Meja & Pengesanan Ralat -->
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 space-y-4 text-xs sm:text-sm">
+                        <h4 class="font-bold text-slate-800 text-sm border-b pb-2">2.1.2 & 2.1.3 Semakan Meja (Trace Table) dan Pengesanan 3 Jenis Ralat</h4>
+                        <p class="text-slate-700"><strong>Semakan Meja (Trace Table):</strong> Kaedah menyemak algoritma secara manual dengan menjejak dan mencatat nilai pemboleh ubah bagi setiap baris arahan untuk memastikan output yang dihasilkan adalah tepat.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                            <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl space-y-1">
+                                <h5 class="font-bold text-rose-900 text-xs flex items-center gap-1">
+                                    <i class="fa-solid fa-bug text-rose-600"></i> Ralat Sintaks (Syntax)
+                                </h5>
+                                <p class="text-slate-600 text-xs">Kesilapan dalam aturan atau tatabahasa bahasa pengaturcaraan. Contoh: Salah ejaan <code>prnt()</code> atau tiada tanda kurung.</p>
+                            </div>
+
+                            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+                                <h5 class="font-bold text-amber-900 text-xs flex items-center gap-1">
+                                    <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> Ralat Masa Larian (Run-time)
+                                </h5>
+                                <p class="text-slate-600 text-xs">Ralat yang berlaku semasa atur cara sedang dijalankan, menyebabkan program terhenti secara tiba-tiba. Contoh: Pembahagian nombor dengan sifar (0).</p>
+                            </div>
+
+                            <div class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl space-y-1">
+                                <h5 class="font-bold text-indigo-900 text-xs flex items-center gap-1">
+                                    <i class="fa-solid fa-calculator text-indigo-600"></i> Ralat Logik (Logic Error)
+                                </h5>
+                                <p class="text-slate-600 text-xs">Atur cara berjalan dengan lancar tanpa mesej ralat, tetapi memberikan **output yang salah** disebabkan kesalahan formula atau logik pengaturcara.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTA BAB 3 (LENGKAP DSKP) -->
+                <div id="content-nota3" class="hidden p-6 space-y-8">
+                    <div class="bg-emerald-700 text-white p-4 rounded-xl flex items-center justify-between">
+                        <h3 class="text-base md:text-lg font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-code"></i>
+                            <span>3.1 Kod Arahan Python & 3.2 HTML</span>
+                        </h3>
+                        <span class="text-xs bg-emerald-800 px-3 py-1 rounded-lg">DSKP 3.1 & 3.2</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs sm:text-sm">
+                        <!-- Python Data Types & Operators -->
+                        <div class="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100 space-y-3">
+                            <h4 class="font-bold text-emerald-900 text-sm border-b border-emerald-200 pb-2">3.1.1 Jenis Data & Operator Dalam Python</h4>
+                            <ul class="space-y-1.5 list-disc pl-4 text-slate-700">
+                                <li><code>int</code> (Integer): Nombor bulat positif/negatif tanpa perpuluhan (Contoh: 10, -5).</li>
+                                <li><code>float</code>: Nombor yang mempunyai titik perpuluhan (Contoh: 3.14, 85.0).</li>
+                                <li><code>str</code> (String): Aksara atau teks yang diapit oleh petik tunggal/ganda (Contoh: "Aiman").</li>
+                                <li><code>bool</code> (Boolean): Nilai kebenaran iaitu <code>True</code> atau <code>False</code>.</li>
+                            </ul>
+                            <div class="bg-white p-3 rounded-xl border border-emerald-200">
+                                <p class="font-bold text-emerald-800 text-xs mb-1">Operator Logik Python:</p>
+                                <p class="text-xs"><code>AND</code> (Kedua-dua syarat mesti True) | <code>OR</code> (Sekurang-kurangnya satu True) | <code>NOT</code> (Menyongsangkan kebenaran)</p>
+                            </div>
+                        </div>
+
+                        <!-- HTML Structure -->
+                        <div class="p-5 bg-slate-900 text-slate-200 rounded-2xl space-y-3">
+                            <h4 class="font-bold text-amber-400 text-sm border-b border-slate-800 pb-2">3.2.1 Tag & Struktur Asas Laman Web HTML</h4>
+                            <p class="text-slate-300">Setiap fail dokumen web HTML dibina menggunakan tag berpasangan pembuka dan penutup:</p>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-sky-300 space-y-1">
+                                <p>&lt;!DOCTYPE html&gt;</p>
+                                <p>&lt;html&gt;</p>
+                                <p class="pl-3">&lt;head&gt;&lt;title&gt;Tajuk Web&lt;/title&gt;&lt;/head&gt;</p>
+                                <p class="pl-3">&lt;body&gt;</p>
+                                <p class="pl-6 text-amber-300">&lt;h1&gt;Tajuk Utama&lt;/h1&gt;</p>
+                                <p class="pl-6 text-amber-300">&lt;p&gt;Perenggan teks...&lt;/p&gt;</p>
+                                <p class="pl-6 text-amber-300">&lt;img src="gambar.jpg"&gt;</p>
+                                <p class="pl-6 text-amber-300">&lt;a href="index.html"&gt;Pautan&lt;/a&gt;</p>
+                                <p class="pl-3">&lt;/body&gt;</p>
+                                <p>&lt;/html&gt;</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Elements HTML Form -->
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 space-y-3 text-xs sm:text-sm">
+                        <h4 class="font-bold text-slate-800 text-sm border-b pb-2">3.2.2 Elemen Borang (Form) dan Input Dalam HTML</h4>
+                        <p class="text-slate-700">Tag <code>&lt;form&gt;</code> digunakan untuk menerima masukan interaktif daripada pengguna dengan menggunakan tag <code>&lt;input&gt;</code>:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-center pt-1 font-mono text-xs">
+                            <div class="p-3 bg-slate-50 border rounded-xl"><code>type="text"</code><br><span class="text-slate-500 font-sans text-[10px]">Kotak Teks Standard</span></div>
+                            <div class="p-3 bg-slate-50 border rounded-xl"><code>type="password"</code><br><span class="text-slate-500 font-sans text-[10px]">Teks Terlindung</span></div>
+                            <div class="p-3 bg-slate-50 border rounded-xl"><code>type="radio"</code><br><span class="text-slate-500 font-sans text-[10px]">Pilih Satu Sahaja</span></div>
+                            <div class="p-3 bg-slate-50 border rounded-xl"><code>type="submit"</code><br><span class="text-slate-500 font-sans text-[10px]">Butang Hantar</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTA PECUTAN AKHIR -->
+                <div id="content-nota-pecutan" class="hidden p-6 space-y-6 bg-amber-50/30">
+                    <div class="flex items-center justify-between border-b border-amber-200 pb-3">
+                        <h3 class="text-xl font-extrabold text-amber-900 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-amber-500"></i>
+                            <span>Ringkasan Pecutan Akhir Peperiksaan</span>
+                        </h3>
+                        <span class="text-xs font-bold bg-amber-200 text-amber-900 px-3 py-1 rounded-full">Kunci Lulus UASA</span>
+                    </div>
+
+                    <!-- Bab 1 Ringkasan -->
+                    <div class="bg-white p-5 rounded-xl border border-amber-200 space-y-3 shadow-sm">
+                        <h4 class="font-bold text-sky-800 text-sm flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                            <span>Bab 1: Perwakilan Data (Isi Penting Pecutan)</span>
+                        </h4>
+                        <ul class="text-xs text-slate-700 space-y-2 list-disc pl-5">
+                            <li><strong>Sistem Nombor Perlapanan (Asas 8):</strong> Menggunakan digit 0, 1, 2, 3, 4, 5, 6, 7. Nilai tempat berasaskan kuasa 8 ($8^0=1, 8^1=8, 8^2=64, 8^3=512$). Setiap digit perlapanan diwakili oleh <strong>3 bit perduaan</strong>.</li>
+                            <li><strong>Sistem Nombor Perenambelasan (Asas 16):</strong> Menggunakan digit 0–9 dan huruf A (10), B (11), C (12), D (13), E (14), F (15). Nilai tempat berasaskan kuasa 16 ($16^0=1, 16^1=16, 16^2=256, 16^3=4096$). Setiap digit diwakili oleh <strong>4 bit perduaan</strong>.</li>
+                            <li><strong>Aplikasi Asas 16:</strong> Pewakilan kod warna HTML/RGB (#RRGGBB) dan pemetaan aksara teks ASCII dalam bahasa mesin.</li>
+                            <li><strong>Panduan Penukaran Cepat:</strong>
+                                <ul class="list-circle pl-5 mt-1 space-y-1 text-slate-600">
+                                    <li>Perpuluhan $\rightarrow$ Perlapanan/Perenambelasan: Bahagi berulang dengan 8 atau 16 dan catat baki dari bawah ke atas.</li>
+                                    <li>Perlapanan $\rightarrow$ Perduaan: Tukar setiap digit ke 3-bit perduaan ($000$ hingga $111$).</li>
+                                    <li>Perenambelasan $\rightarrow$ Perduaan: Tukar setiap digit ke 4-bit perduaan ($0000$ hingga $1111$).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Bab 2 Ringkasan -->
+                    <div class="bg-white p-5 rounded-xl border border-amber-200 space-y-3 shadow-sm">
+                        <h4 class="font-bold text-indigo-800 text-sm flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                            <span>Bab 2: Algoritma (Isi Penting Pecutan)</span>
+                        </h4>
+                        <ul class="text-xs text-slate-700 space-y-2 list-disc pl-5">
+                            <li><strong>Struktur Pilihan Bersarang:</strong> Mempunyai struktur kawalan pilihan di dalam cabang pilihan lain (contoh: semakan kelayakan mengikut umur kemudian mengikut lesen).</li>
+                            <li><strong>Struktur Ulangan:</strong>
+                                <ul class="list-circle pl-5 mt-1 space-y-1 text-slate-600">
+                                    <li><code>FOR</code>: Digunakan apabila bilangan ulangan telah diketahui dengan pasti.</li>
+                                    <li><code>WHILE</code>: Digunakan apabila ulangan dikehendaki selagi sesuatu syarat kekal BENAR (True).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Semakan Meja (Trace Table):</strong> Kaedah langkah demi langkah menjejak nilai pemboleh ubah untuk memastikan logik algoritma tepat.</li>
+                            <li><strong>Penting - Formula Ralat:</strong> Ralat Sintaks (kesilapan tatabahasa kod), Ralat Masa Larian (berlaku semasa program berjalan/seperti dibahagi 0), Ralat Logik (output salah walaupun kod tiada mesej ralat).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Bab 3 Ringkasan -->
+                    <div class="bg-white p-5 rounded-xl border border-amber-200 space-y-3 shadow-sm">
+                        <h4 class="font-bold text-emerald-800 text-sm flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            <span>Bab 3: Kod Arahan Python & HTML (Isi Penting Pecutan)</span>
+                        </h4>
+                        <ul class="text-xs text-slate-700 space-y-2 list-disc pl-5">
+                            <li><strong>Python Data Types:</strong> <code>int</code> (nombor bulat), <code>float</code> (perpuluhan), <code>str</code> (teks), <code>bool</code> (True/False).</li>
+                            <li><strong>Operator Logik:</strong>
+                                <ul class="list-circle pl-5 mt-1 space-y-1 text-slate-600">
+                                    <li><code>AND</code>: Benar HANYA jika semua syarat Benar.</li>
+                                    <li><code>OR</code>: Benar jika MANA-MANA syarat Benar.</li>
+                                    <li><code>NOT</code>: Menterbalikkan nilai (True menjadi False, False menjadi True).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Struktur Asas Laman Web HTML:</strong> Mesti dimulakan dengan <code>&lt;!DOCTYPE html&gt;</code>, mengandungi tag <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, dan <code>&lt;body&gt;</code>.</li>
+                            <li><strong>Elemen Borang HTML:</strong> Tag <code>&lt;form&gt;</code> mengandungi tag <code>&lt;input&gt;</code> dengan atribut <code>type="text"</code>, <code>type="password"</code>, <code>type="radio"</code>, <code>type="checkbox"</code>, dan <code>type="submit"</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KAD IMBAS PAT (45 SOALAN ENHANCED) -->
+        <section id="section-kad-imbas" class="hidden p-4 md:p-8 space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold">Kad Imbas Interaktif PAT</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-1">Kad Imbas Pecutan PAT ASK T2</h2>
+                    <p class="text-xs text-slate-500" id="fcSubtitle">Kemajuan: Kad 1 daripada 45</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="toggleCardGridView()" id="btnToggleGrid" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-indigo-200">
+                        <i class="fa-solid fa-border-all"></i>
+                        <span>Tukar Pandangan Grid (Semua 45)</span>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="prevFlashcard()" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 transition">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <span id="flashcardIndex" class="text-xs font-bold text-slate-600 px-2">1 / 45</span>
+                        <button onclick="nextFlashcard()" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-slate-700 transition">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
+                <div class="flex justify-between text-xs font-bold text-slate-600">
+                    <span id="progressText">Kemajuan: Kad 1 daripada 45</span>
+                    <span id="masteredCountText">Dikuasai: 0 / 45</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-amber-400 to-emerald-500 h-full transition-all duration-300" style="width: 2.22%"></div>
+                </div>
+            </div>
+
+            <!-- Single Flipcard Display Mode -->
+            <div id="singleCardView" class="flex flex-col items-center justify-center py-4 space-y-4">
+                <div id="flashcardContainer" onclick="flipCard()" class="w-full max-w-xl h-72 perspective-1000 cursor-pointer">
+                    <div id="flashcardInner" class="relative w-full h-full duration-500 transform-style-3d shadow-xl rounded-2xl">
+                        <!-- Front -->
+                        <div class="absolute w-full h-full bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-8 flex flex-col justify-between backface-hidden border border-slate-700">
+                            <div class="flex justify-between items-center text-xs text-amber-400 font-semibold">
+                                <span id="fcBab">Bab 1: Perwakilan Data</span>
+                                <span><i class="fa-solid fa-rotate mr-1"></i> Klik untuk pusing</span>
+                            </div>
+                            <div class="text-center my-auto">
+                                <p id="fcSoalan" class="text-base md:text-lg font-semibold leading-relaxed">Apakah 8 digit yang digunakan dalam sistem nombor perlapanan?</p>
+                            </div>
+                            <div class="flex justify-between items-center text-[10px] text-slate-400">
+                                <span id="fcMasteredBadge" class="hidden text-emerald-400 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> DIKUASAI</span>
+                                <span class="ml-auto">Master ASK T2</span>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute w-full h-full bg-amber-400 text-slate-900 rounded-2xl p-8 flex flex-col justify-between backface-hidden rotate-y-180 border border-amber-300">
+                            <div class="flex justify-between items-center text-xs font-bold text-slate-800">
+                                <span>Jawapan Ringkas</span>
+                                <span><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                            <div class="text-center my-auto">
+                                <p id="fcJawapan" class="text-base md:text-lg font-bold leading-relaxed">0, 1, 2, 3, 4, 5, 6, dan 7.</p>
+                            </div>
+                            <div class="text-right text-[10px] text-slate-800 font-medium">Klik untuk kembali ke soalan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Controls for Single Card -->
+                <div class="flex items-center gap-3">
+                    <button id="btnMarkMastered" onclick="toggleMasteredCurrent()" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span id="btnMarkMasteredText">Tanda Dikuasai</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid View Mode (Hidden by Default) -->
+            <div id="gridCardView" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Dynamically Rendered Grid Cards -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: SET LATIHAN PECUTAN UASA (70 MARKAH) -->
+        <section id="section-pat" class="hidden p-4 md:p-8 space-y-6">
+            <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs text-blue-200 mb-2 border border-white/10">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Format Standard UASA / PAT ASK Tingkatan 2</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Simulasi Ujian Akhir Sesi Akademik (UASA)</h2>
+                    <p class="text-blue-100 text-xs sm:text-sm mt-1 max-w-2xl">
+                        Format rasmi peperiksaan (70 Markah) merangkumi Bahagian A, Bahagian B, dan Bahagian C.
+                    </p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="window.print()" class="no-print px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 border border-white/20">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Cetak Exam</span>
+                    </button>
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 px-5 text-center border border-white/10">
+                        <span class="block text-2xl font-black text-amber-300" id="totalScoreCount">0</span>
+                        <span class="text-[10px] text-blue-200 uppercase tracking-wider">Markah Terkumpul</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation for Sections -->
+            <div class="border-b border-slate-200 bg-white rounded-2xl shadow-sm px-4 no-print">
+                <nav class="flex space-x-6 overflow-x-auto" aria-label="Tabs">
+                    <button onclick="switchUasaTab('bahagianA')" id="uasa-tab-bahagianA" class="py-4 px-2 border-b-2 border-indigo-600 text-indigo-600 font-bold text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Bahagian A (10 Markah)</span>
+                    </button>
+                    <button onclick="switchUasaTab('bahagianB')" id="uasa-tab-bahagianB" class="py-4 px-2 border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>Bahagian B (40 Markah)</span>
+                    </button>
+                    <button onclick="switchUasaTab('bahagianC')" id="uasa-tab-bahagianC" class="py-4 px-2 border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-code"></i>
+                        <span>Bahagian C (20 Markah)</span>
+                    </button>
+                    <button onclick="switchUasaTab('skema')" id="uasa-tab-skema" class="py-4 px-2 border-b-2 border-transparent text-slate-500 hover:text-slate-700 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>Keputusan & Skema</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- BAHAGIAN A CONTENT -->
+            <div id="uasa-content-bahagianA" class="uasa-tab-content space-y-6">
+                <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-2xl">
+                    <h3 class="font-bold text-blue-900 text-xs sm:text-sm uppercase tracking-wide">Bahagian A: Soalan Objektif [10 Markah]</h3>
+                    <p class="text-xs text-blue-700 mt-0.5">Jawab semua soalan. Pilih satu jawapan yang paling tepat.</p>
+                </div>
+                <div class="space-y-6" id="partAQuestions"></div>
+            </div>
+
+            <!-- BAHAGIAN B CONTENT -->
+            <div id="uasa-content-bahagianB" class="uasa-tab-content hidden space-y-6">
+                <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-2xl">
+                    <h3 class="font-bold text-indigo-900 text-xs sm:text-sm uppercase tracking-wide">Bahagian B: Soalan Struktur [40 Markah]</h3>
+                    <p class="text-xs text-indigo-700 mt-0.5">Jawab semua soalan mengikut padanan dan isian tempat kosong.</p>
+                </div>
+                <div class="space-y-6" id="partBQuestions"></div>
+            </div>
+
+            <!-- BAHAGIAN C CONTENT -->
+            <div id="uasa-content-bahagianC" class="uasa-tab-content hidden space-y-6">
+                <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded-r-2xl">
+                    <h3 class="font-bold text-purple-900 text-xs sm:text-sm uppercase tracking-wide">Bahagian C: Soalan Analisis & Pengaturcaraan [20 Markah]</h3>
+                    <p class="text-xs text-purple-700 mt-0.5">Jawab semua soalan KBAT berkaitan algoritma dan kod arahan Python.</p>
+                </div>
+                <div class="space-y-6" id="partCQuestions"></div>
+            </div>
+
+            <!-- SUMMARY & RESULT CONTENT -->
+            <div id="uasa-content-skema" class="uasa-tab-content hidden space-y-6">
+                <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 rounded-r-2xl">
+                    <h3 class="font-bold text-emerald-900 text-xs sm:text-sm uppercase tracking-wide">Ringkasan Keputusan & Skema Jawapan UASA</h3>
+                    <p class="text-xs text-emerald-700 mt-0.5">Semakan markah automatik mengikut Standard Pentaksiran UASA ASK Tingkatan 2.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Bahagian A</span>
+                        <p class="text-3xl font-extrabold text-blue-600 mt-1" id="summaryPartA">0 / 10</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Bahagian B</span>
+                        <p class="text-3xl font-extrabold text-indigo-600 mt-1" id="summaryPartB">0 / 40</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Bahagian C</span>
+                        <p class="text-3xl font-extrabold text-purple-600 mt-1" id="summaryPartC">0 / 20</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h4 class="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-award text-emerald-600"></i>
+                        <span>Analisis Prestasi & Gred Keseluruhan</span>
+                    </h4>
+                    <div id="gradeResult" class="p-5 bg-slate-50 rounded-2xl border border-slate-200 text-slate-700 text-sm">
+                        Sila selesaikan soalan latihan untuk mengira markah akhir.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: PLAYGROUND / SANDBOX -->
+        <section id="section-playground" class="hidden p-4 md:p-8 space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-xs font-bold">Simulator Arahan</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-1">Python Interactive Playground</h2>
+                    <p class="text-xs text-slate-500">Uji atur cara Python ringkas dan lihat output secara langsung.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Code Input -->
+                <div class="bg-slate-900 rounded-2xl p-5 border border-slate-800 text-slate-200 space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <span class="text-xs font-mono font-bold text-pink-400"><i class="fa-solid fa-code mr-1"></i> main.py</span>
+                        <button onclick="runPythonSim()" class="px-4 py-1.5 bg-pink-600 hover:bg-pink-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Jalankan Kod</span>
+                        </button>
+                    </div>
+                    <textarea id="pythonCodeInput" rows="12" class="w-full bg-slate-950 text-emerald-400 font-mono text-xs p-4 rounded-xl focus:outline-none border border-slate-800 focus:border-pink-500" placeholder="Tulis kod Python di sini..."># Simulasi Kod Python ASK Tingkatan 2
+markah = 75
+if markah >= 80:
+    print("Gred A - Cemerlang")
+elif markah >= 60:
+    print("Gred B - Keputusan Baik")
+else:
+    print("Gred C - Lulus")
+</textarea>
+                </div>
+
+                <!-- Terminal Output -->
+                <div class="bg-slate-950 rounded-2xl p-5 border border-slate-800 text-slate-200 space-y-3 shadow-lg flex flex-col">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <span class="text-xs font-mono font-bold text-slate-400"><i class="fa-solid fa-terminal mr-1"></i> Output Konsol</span>
+                        <button onclick="document.getElementById('pythonOutput').innerText=''" class="text-xs text-slate-500 hover:text-slate-300">
+                            Bersihkan
+                        </button>
+                    </div>
+                    <div id="pythonOutput" class="flex-1 font-mono text-xs text-slate-300 bg-slate-900 p-4 rounded-xl min-h-[220px] whitespace-pre-wrap border border-slate-800">
+Program sedia untuk dijalankan... Klik "Jalankan Kod".
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // State Management
+        let answersA = {};
+        let scoresA = 0;
+        let scoresB = 0;
+        let scoresC = 0;
+        let currentFlashcard = 0;
+        let isGridView = false;
+        let masteredCards = new Set(); // Tracks indices of mastered flashcards
+
+        // 45 Flashcards Data
+        const flashcardData = [
+            // Bab 1
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah 8 digit yang digunakan dalam sistem nombor perlapanan?", a: "0, 1, 2, 3, 4, 5, 6, dan 7." },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah nilai tempat bagi digit ketiga dari kanan dalam nombor perlapanan?", a: "8² = 64" },
+            { bab: "Bab 1: Perwakilan Data", q: "Tukarkan nombor perlapanan 15₈ kepada nombor perpuluhan.", a: "(1 × 8¹) + (5 × 8⁰) = 8 + 5 = 13₁₀" },
+            { bab: "Bab 1: Perwakilan Data", q: "Berapakah bit perduaan yang diwakili oleh satu digit nombor perlapanan?", a: "3 bit nombor perduaan." },
+            { bab: "Bab 1: Perwakilan Data", q: "Tukarkan 101₂ kepada nombor perlapanan.", a: "5₈" },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah istilah teknikal bagi sistem nombor perenambelasan?", a: "Sistem Nombor Heksadesimal." },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah 16 digit yang digunakan dalam sistem nombor perenambelasan?", a: "0-9 dan huruf A (10), B (11), C (12), D (13), E (14), F (15)." },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah huruf yang mewakili nilai 12 dalam nombor perenambelasan?", a: "Huruf C." },
+            { bab: "Bab 1: Perwakilan Data", q: "Berapakah bit perduaan yang diwakili oleh 1 digit nombor perenambelasan?", a: "4 bit nombor perduaan." },
+            { bab: "Bab 1: Perwakilan Data", q: "Tukarkan 1111₂ kepada nombor perenambelasan.", a: "F₁₆ (nilai 15)." },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah kegunaan utama sistem nombor perenambelasan dalam pembangunan web?", a: "Pewakilan kod warna RGB." },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah warna yang diwakili oleh kod heksadesimal #FF0000?", a: "Warna Merah (Red)." },
+            { bab: "Bab 1: Perwakilan Data", q: "Apakah maksud singkatan ASCII?", a: "American Standard Code for Information Interchange." },
+            { bab: "Bab 1: Perwakilan Data", q: "Mengapakah sistem perlapanan & perenambelasan digunakan berbanding perduaan?", a: "Meringkaskan perwakilan bahasa mesin supaya lebih mudah dibaca oleh manusia." },
+            { bab: "Bab 1: Perwakilan Data", q: "Tukarkan 10₁₀ kepada nombor perenambelasan.", a: "A₁₆" },
+
+            // Bab 2
+            { bab: "Bab 2: Algoritma", q: "Apakah definisi Algoritma?", a: "Satu siri langkah teratur untuk menyelesaikan sesuatu masalah." },
+            { bab: "Bab 2: Algoritma", q: "Apakah dua cara utama mewakili algoritma?", a: "Pseudokod dan Carta Alir." },
+            { bab: "Bab 2: Algoritma", q: "Apakah maksud Struktur Pilihan Bersarang?", a: "Struktur pilihan yang wujud di dalam cabang struktur pilihan yang lain." },
+            { bab: "Bab 2: Algoritma", q: "Apakah perbezaan antara struktur ulangan FOR dan WHILE?", a: "FOR digunakan jika bilangan ulangan diketahui, manakala WHILE diuji mengikut syarat." },
+            { bab: "Bab 2: Algoritma", q: "Apakah fungsi Semakan Meja (Trace Table)?", a: "Menyemak nilai pemboleh ubah secara berperingkat untuk mengesan ralat logik." },
+            { bab: "Bab 2: Algoritma", q: "Nyatakan 3 jenis ralat dalam pengaturcaraan.", a: "Ralat Sintaks, Ralat Masa Larian (Run-time), dan Ralat Logik." },
+            { bab: "Bab 2: Algoritma", q: "Apakah jenis ralat jika terjadi pembahagian dengan sifar (divide by zero)?", a: "Ralat Masa Larian (Run-time Error)." },
+            { bab: "Bab 2: Algoritma", q: "Apakah jenis ralat jika output pengiraan formula salah tetapi program tiada mesej ralat?", a: "Ralat Logik." },
+            { bab: "Bab 2: Algoritma", q: "Apakah simbol carta alir yang berbentuk rombus (diamond)?", a: "Pilihan / Keputusan (Decision)." },
+            { bab: "Bab 2: Algoritma", q: "Apakah simbol carta alir berbentuk segiempat tepat?", a: "Proses (Process)." },
+            { bab: "Bab 2: Algoritma", q: "Apakah kegunaan pemboleh ubah pembilang dalam struktur ulangan?", a: "Mengira dan mengemas kini bilangan ulangan yang telah berlaku." },
+            { bab: "Bab 2: Algoritma", q: "Apakah maksud 'Ralat Sintaks'?", a: "Kesilapan tatabahasa atau aturan penulisan dalam bahasa pengaturcaraan." },
+            { bab: "Bab 2: Algoritma", q: "Dalam ulangan while, apakah yang berlaku jika syarat sentiasa Benar (True)?", a: "Berlaku ulangan tanpa henti (infinite loop)." },
+            { bab: "Bab 2: Algoritma", q: "Apakah maksud pemboleh ubah?", a: "Ruang memori yang digunakan untuk menyimpan data yang boleh berubah." },
+            { bab: "Bab 2: Algoritma", q: "Apakah maksud pemalar?", a: "Nilai simpanan data yang kekal dan tidak berubah sepanjang atur cara." },
+
+            // Bab 3
+            { bab: "Bab 3: Kod Arahan", q: "Nyatakan 4 jenis data asas dalam Python.", a: "Integer (int), Float, String (str), dan Boolean (bool)." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah jenis data bagi nilai 89.5?", a: "Float (nombor perpuluhan)." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah simbol operator aritmetik bagi pendaraban dalam Python?", a: "Simbol bintang (*)." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah fungsi sintaks `input()` dalam Python?", a: "Menerima masukan data daripada pengguna." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah operator logik yang menyongsangkan nilai Boolean?", a: "NOT." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah hasil bagi `True AND False`?", a: "False." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah hasil bagi `True OR False`?", a: "True." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah tag HTML asas yang mengandungi semua elemen kandungan halaman web?", a: "Tag <body>." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah tag HTML yang digunakan untuk membina borang?", a: "Tag <form>." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah tag HTML untuk memasukkan gambar/imej?", a: "Tag <img>." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah tag HTML untuk membina pautan hiperteks (hyperlink)?", a: "Tag <a> (anchor)." },
+            { bab: "Bab 3: Kod Arahan", q: "Atribut manakah dalam tag <input> yang menentukan jenis input seperti teks atau butang?", a: "Atribut `type` (contoh: type='text')." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah fungsi utama bahasa pengaturcaraan Python?", a: "Membina atur cara pemprosesan logic dan pengiraan aplikasi." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah fungsi utama HTML dalam pembangunan web?", a: "Membina struktur dan persembahan kandungan halaman web." },
+            { bab: "Bab 3: Kod Arahan", q: "Apakah output bagi `print(int(3.8))` dalam Python?", a: "3 (kerana ditukar kepada nombor bulat)." }
+        ];
+
+        // Part A Exam Questions Data
+        const partAQuestionsData = [
+            { id: 1, question: "Antara nombor perlapanan berikut, yang manakah ditulis dengan format digit yang BETUL?", options: ["A) 84₁₆", "B) 76₈", "C) 90₈", "D) 589₈"], correct: 1, explain: "Sistem perlapanan hanya menggunakan digit 0 hingga 7 sahaja." },
+            { id: 2, question: "Apakah baki pembahagian X bagi penukaran nombor perpuluhan 58 kepada perlapanan?<br><code>58 ÷ 8 = 7 (Baki X)</code>", options: ["A) 2", "B) 4", "C) 5", "D) 6"], correct: 0, explain: "58 ÷ 8 = 7 baki 2 (kerana 8 × 7 = 56, 58 - 56 = 2)." },
+            { id: 3, question: "Pernyataan manakah yang menunjukkan nilai tempat nombor perenambelasan bersamaan perpuluhan yang BETUL?", options: ["A) 16³ (4096), 16² (256), 16¹ (16), 16⁰ (1)", "B) 16³ (256), 16² (128), 16¹ (16), 16⁰ (1)", "C) 16³ (128), 16² (64), 16¹ (16), 16⁰ (1)", "D) 16³ (64), 16² (32), 16¹ (16), 16⁰ (1)"], correct: 0, explain: "Nilai tempat perenambelasan: 16⁰=1, 16¹=16, 16²=256, 16³=4096." },
+            { id: 4, question: "Sistem nombor perenambelasan juga dikenali dengan istilah...", options: ["A) Oktal", "B) Desimal", "C) Heksadesimal", "D) Binari"], correct: 2, explain: "Perenambelasan dipanggil Sistem Nombor Heksadesimal." },
+            { id: 5, question: "Situasi manakah yang paling sesuai mewakili struktur kawalan ulangan WHILE?", options: ["A) Pengguna memasukkan PIN selagi jawapan salah", "B) Mengira 1 hingga 10 secara tetap", "C) Menjalankan ujian 3 kali sahaja", "D) Menerima borang tepat 5 helai"], correct: 0, explain: "Ulangan while diuji mengikut syarat selagi belum dipenuhi." },
+            { id: 6, question: "Definisi: 'Satu siri langkah teratur untuk menyelesaikan masalah'. Apakah perwakilan ini?", options: ["A) Algoritma", "B) Carta Alir", "C) Pseudokod", "D) Pemboleh ubah"], correct: 0, explain: "Siri langkah teratur ialah Algoritma." },
+            { id: 7, question: "Susunkan langkah pengiraan luas: I: luas=p*l, II: print(luas), III: p=input(), IV: l=input()", options: ["A) III, IV, I, II", "B) IV, III, II, I", "C) I, III, IV, II", "D) III, I, IV, II"], correct: 0, explain: "Dapatkan input (III & IV) -> Kira (I) -> Papar (II)." },
+            { id: 8, question: "Operator logik yang menyongsangkan nilai Boolean ialah...", options: ["A) AND", "B) OR", "C) NOT", "D) NAND"], correct: 2, explain: "Operator NOT menyongsangkan nilai Boolean." },
+            { id: 9, question: "Atribut tag `<input>` untuk memasukkan teks pengguna dalam HTML ialah...", options: ["A) type='text'", "B) mode='string'", "C) style='input'", "D) format='text'"], correct: 0, explain: "Atribut type='text' digunakan bagi input borang teks." },
+            { id: 10, question: "Apakah jenis data bagi nilai `3.14159` dalam Python?", options: ["A) Integer", "B) Float", "C) String", "D) Boolean"], correct: 1, explain: "Nombor perpuluhan dikategorikan sebagai jenis data Float." }
+        ];
+
+        // Init App
+        window.onload = function() {
+            renderPartA();
+            renderPartB();
+            renderPartC();
+            updateFlashcard();
+            renderGridCards();
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                });
+            }
+        };
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        function showSection(secId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`section-${secId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active-nav'));
+            const activeNav = document.getElementById(`nav-${secId}`);
+            if(activeNav) activeNav.classList.add('active-nav');
+        }
+
+        function switchNotaTab(tabId) {
+            ['nota1','nota2','nota3','nota-pecutan'].forEach(t => {
+                document.getElementById(`content-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('tab-active');
+            });
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('tab-active');
+        }
+
+        function switchUasaTab(tabId) {
+            document.querySelectorAll('.uasa-tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('#section-pat nav button').forEach(btn => {
+                btn.classList.remove('border-indigo-600', 'text-indigo-600', 'font-bold');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            document.getElementById(`uasa-content-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`uasa-tab-${tabId}`);
+            activeBtn.classList.add('border-indigo-600', 'text-indigo-600', 'font-bold');
+            activeBtn.classList.remove('border-transparent', 'text-slate-500');
+
+            if(tabId === 'skema') {
+                calculateTotalScore();
+            }
+        }
+
+        // --- ENHANCED FLASHCARD LOGIC ---
+        function updateFlashcard() {
+            const item = flashcardData[currentFlashcard];
+            document.getElementById('fcBab').innerText = item.bab;
+            document.getElementById('fcSoalan').innerText = item.q;
+            document.getElementById('fcJawapan').innerText = item.a;
+            
+            const progressStr = `Kad ${currentFlashcard + 1} daripada ${flashcardData.length}`;
+            document.getElementById('flashcardIndex').innerText = `${currentFlashcard + 1} / ${flashcardData.length}`;
+            document.getElementById('fcSubtitle').innerText = `Kemajuan: ${progressStr}`;
+            document.getElementById('progressText').innerText = `Kemajuan: ${progressStr}`;
+            
+            // Progress Bar
+            const percent = ((currentFlashcard + 1) / flashcardData.length) * 100;
+            document.getElementById('progressBar').style.width = `${percent}%`;
+
+            // Mastered Badge & Button text
+            const isMastered = masteredCards.has(currentFlashcard);
+            const badge = document.getElementById('fcMasteredBadge');
+            const btnText = document.getElementById('btnMarkMasteredText');
+            
+            if (isMastered) {
+                badge.classList.remove('hidden');
+                btnText.innerText = "Batal Tanda Dikuasai";
+            } else {
+                badge.classList.add('hidden');
+                btnText.innerText = "Tanda Dikuasai";
+            }
+
+            document.getElementById('masteredCountText').innerText = `Dikuasai: ${masteredCards.size} / ${flashcardData.length}`;
+            document.getElementById('flashcardInner').classList.remove('rotate-y-180');
+        }
+
+        function flipCard() {
+            document.getElementById('flashcardInner').classList.toggle('rotate-y-180');
+        }
+
+        function prevFlashcard() {
+            if(currentFlashcard > 0) {
+                currentFlashcard--;
+                updateFlashcard();
+            }
+        }
+
+        function nextFlashcard() {
+            if(currentFlashcard < flashcardData.length - 1) {
+                currentFlashcard++;
+                updateFlashcard();
+            }
+        }
+
+        function toggleMasteredCurrent() {
+            if (masteredCards.has(currentFlashcard)) {
+                masteredCards.delete(currentFlashcard);
+                showToast(`Kad ${currentFlashcard + 1} dibatalkan daripada Dikuasai.`);
+            } else {
+                masteredCards.add(currentFlashcard);
+                showToast(`Kad ${currentFlashcard + 1} ditanda sebagai Dikuasai!`);
+            }
+            updateFlashcard();
+            renderGridCards();
+        }
+
+        function toggleCardGridView() {
+            isGridView = !isGridView;
+            const singleView = document.getElementById('singleCardView');
+            const gridView = document.getElementById('gridCardView');
+            const btn = document.getElementById('btnToggleGrid');
+
+            if (isGridView) {
+                singleView.classList.add('hidden');
+                gridView.classList.remove('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-clone"></i> <span>Tukar Ke Pandangan Tunggal</span>`;
+                renderGridCards();
+            } else {
+                singleView.classList.remove('hidden');
+                gridView.classList.add('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-border-all"></i> <span>Tukar Pandangan Grid (Semua 45)</span>`;
+            }
+        }
+
+        function renderGridCards() {
+            const gridContainer = document.getElementById('gridCardView');
+            gridContainer.innerHTML = flashcardData.map((item, idx) => {
+                const isMastered = masteredCards.has(idx);
+                return `
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border ${isMastered ? 'border-emerald-400 bg-emerald-50/20' : 'border-slate-200'} space-y-3 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center text-xs font-bold ${isMastered ? 'text-emerald-700' : 'text-slate-500'} mb-2">
+                                <span>Kad #${idx + 1} - ${item.bab}</span>
+                                ${isMastered ? '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px]"><i class="fa-solid fa-check"></i> Dikuasai</span>' : ''}
+                            </div>
+                            <p class="font-bold text-slate-800 text-xs sm:text-sm mb-2">${item.q}</p>
+                            <p class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 font-medium"><b>Jawapan:</b> ${item.a}</p>
+                        </div>
+                        <div class="pt-2 flex justify-between items-center border-t border-slate-100">
+                            <button onclick="jumpToCard(${idx})" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">
+                                Buka Tunggal <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button onclick="toggleMasteredGrid(${idx})" class="text-xs font-bold ${isMastered ? 'text-amber-600 hover:text-amber-800' : 'text-emerald-600 hover:text-emerald-800'}">
+                                ${isMastered ? 'Batal Dikuasai' : '+ Tanda Dikuasai'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleMasteredGrid(idx) {
+            if (masteredCards.has(idx)) {
+                masteredCards.delete(idx);
+            } else {
+                masteredCards.add(idx);
+            }
+            updateFlashcard();
+            renderGridCards();
+        }
+
+        function jumpToCard(idx) {
+            currentFlashcard = idx;
+            if (isGridView) toggleCardGridView();
+            updateFlashcard();
+        }
+
+        // Render UASA Part A
+        function renderPartA() {
+            const container = document.getElementById('partAQuestions');
+            container.innerHTML = partAQuestionsData.map((item, index) => `
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="font-semibold text-slate-800 text-sm sm:text-base">
+                            <span class="inline-block bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-bold mr-2">Soalan ${index + 1}</span>
+                            <span>${item.question}</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 whitespace-nowrap">[1 Markah]</span>
+                    </div>
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        ${item.options.map((opt, optIdx) => `
+                            <button onclick="selectOptionA(${index}, ${optIdx})" id="q${index}_opt${optIdx}" class="opt-btn-${index} text-left p-3 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 transition text-xs sm:text-sm text-slate-700 flex items-center justify-between">
+                                <span>${opt}</span>
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="explainA_${index}" class="hidden mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600">
+                        <strong>Penerangan:</strong> ${item.explain}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectOptionA(qIdx, optIdx) {
+            const target = partAQuestionsData[qIdx];
+            answersA[qIdx] = optIdx;
+
+            document.querySelectorAll(`.opt-btn-${qIdx}`).forEach((btn, idx) => {
+                if(idx === target.correct) {
+                    btn.className = `opt-btn-${qIdx} text-left p-3 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-800 font-medium text-xs sm:text-sm flex items-center justify-between`;
+                } else if(idx === optIdx) {
+                    btn.className = `opt-btn-${qIdx} text-left p-3 rounded-xl border border-rose-500 bg-rose-50 text-rose-800 text-xs sm:text-sm flex items-center justify-between`;
+                } else {
+                    btn.className = `opt-btn-${qIdx} text-left p-3 rounded-xl border border-slate-200 text-slate-700 text-xs sm:text-sm flex items-center justify-between`;
+                }
+            });
+
+            document.getElementById(`explainA_${qIdx}`).classList.remove('hidden');
+
+            scoresA = 0;
+            Object.keys(answersA).forEach(k => {
+                if(answersA[k] === partAQuestionsData[k].correct) scoresA += 1;
+            });
+            updateHeaderScore();
+        }
+
+        // Render UASA Part B
+        function renderPartB() {
+            const container = document.getElementById('partBQuestions');
+            container.innerHTML = `
+                <!-- Soalan B1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800 text-sm">1. Penukaran Perlapanan kepada Perduaan (3-Bit) [4 Markah]</h4>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-full">4 Markah</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Padankan digit nombor perlapanan dengan nilai 3-bit perduaan yang betul:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border">
+                            <span>Digit <b>1</b>:</span>
+                            <select id="b1_1" onchange="checkPartB()" class="border rounded px-2 py-1 bg-white">
+                                <option value="">Pilih...</option>
+                                <option value="001">001</option>
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border">
+                            <span>Digit <b>2</b>:</span>
+                            <select id="b1_2" onchange="checkPartB()" class="border rounded px-2 py-1 bg-white">
+                                <option value="">Pilih...</option>
+                                <option value="001">001</option>
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border">
+                            <span>Digit <b>3</b>:</span>
+                            <select id="b1_3" onchange="checkPartB()" class="border rounded px-2 py-1 bg-white">
+                                <option value="">Pilih...</option>
+                                <option value="001">001</option>
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border">
+                            <span>Digit <b>4</b>:</span>
+                            <select id="b1_4" onchange="checkPartB()" class="border rounded px-2 py-1 bg-white">
+                                <option value="">Pilih...</option>
+                                <option value="001">001</option>
+                                <option value="010">010</option>
+                                <option value="011">011</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soalan B2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800 text-sm">2. Sistem Nombor Perenambelasan [4 Markah]</h4>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-full">4 Markah</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Tentukan sama ada kenyataan berikut BENAR atau PALSU.</p>
+                    <div class="space-y-2 text-xs">
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border">
+                            <span>Menggunakan 16 pilihan digit (0-9 dan A-F)</span>
+                            <select id="b2_1" onchange="checkPartB()" class="border rounded px-2 py-1 bg-white">
+                                <option value="">Pilih...</option>
+                                <option value="BENAR">BENAR</option>
+                                <option value="PALSU">PALSU</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border">
+                            <span>Huruf 'D' mewakili nombor 15 dalam perenambelasan</span>
+                            <select id="b2_2" onchange="checkPartB()" class="border rounded px-2 py-1 bg-white">
+                                <option value="">Pilih...</option>
+                                <option value="BENAR">BENAR</option>
+                                <option value="PALSU">PALSU</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkPartB() {
+            let m = 0;
+            if(document.getElementById('b1_1')?.value === '001') m += 1;
+            if(document.getElementById('b1_2')?.value === '010') m += 1;
+            if(document.getElementById('b1_3')?.value === '011') m += 1;
+            if(document.getElementById('b1_4')?.value === '100') m += 1;
+
+            if(document.getElementById('b2_1')?.value === 'BENAR') m += 2;
+            if(document.getElementById('b2_2')?.value === 'PALSU') m += 2;
+
+            scoresB = m;
+            updateHeaderScore();
+        }
+
+        // Render UASA Part C
+        function renderPartC() {
+            const container = document.getElementById('partCQuestions');
+            container.innerHTML = `
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800 text-sm">1. Kod Perenambelasan KOMPUTER [10 Markah]</h4>
+                        <span class="text-xs bg-purple-100 text-purple-700 font-bold px-2.5 py-1 rounded-full">10 Markah</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Rujukan ASCII: K=4B, O=4F, M=4D, P=50, U=55, T=54, E=45, R=52.<br>Masukkan kod heksadesimal bagi perkataan "KOMPUTER":</p>
+                    <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 text-center text-xs">
+                        ${['K','O','M','P','U','T','E','R'].map((char, idx) => `
+                            <div class="p-2 bg-slate-50 border rounded-xl">
+                                <span class="font-bold block text-indigo-700">${char}</span>
+                                <input type="text" id="c1_${idx}" oninput="checkPartC()" placeholder="16-Bit" class="w-full mt-1 p-1 border rounded text-center uppercase text-xs">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800 text-sm">2. Pengaturan Kod Python & Purata [10 Markah]</h4>
+                        <span class="text-xs bg-purple-100 text-purple-700 font-bold px-2.5 py-1 rounded-full">10 Markah</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Kira purata markah: Aiman mendapat 80 dan 90. Kirakan purata nilai:</p>
+                    <div class="flex items-center gap-3 text-xs">
+                        <label class="font-bold">Hasil Purata:</label>
+                        <input type="text" id="c2_calc" oninput="checkPartC()" placeholder="85" class="p-2 border rounded font-bold w-24 text-center">
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkPartC() {
+            let m = 0;
+            const correctHex = ['4B','4F','4D','50','55','54','45','52'];
+            correctHex.forEach((hex, i) => {
+                if(document.getElementById(`c1_${i}`)?.value.trim().toUpperCase() === hex) m += 1;
+            });
+
+            if(document.getElementById('c2_calc')?.value.trim() === '85') m += 2;
+
+            scoresC = m;
+            updateHeaderScore();
+        }
+
+        function updateHeaderScore() {
+            const total = scoresA + scoresB + scoresC;
+            document.getElementById('totalScoreCount').innerText = total;
+            document.getElementById('summaryPartA').innerText = `${scoresA} / 10`;
+            document.getElementById('summaryPartB').innerText = `${scoresB} / 40`;
+            document.getElementById('summaryPartC').innerText = `${scoresC} / 20`;
+        }
+
+        function calculateTotalScore() {
+            updateHeaderScore();
+            const total = scoresA + scoresB + scoresC;
+            let status = "";
+            let color = "";
+
+            if(total >= 60) {
+                status = "Cemerlang (Gred A) - Tahap Penguasaan TP6 Memuaskan!";
+                color = "text-emerald-600";
+            } else if(total >= 45) {
+                status = "Baik (Gred B/C) - Teruskan Latihan.";
+                color = "text-blue-600";
+            } else {
+                status = "Perlu Ulangan Latihan Tambahan.";
+                color = "text-rose-600";
+            }
+
+            document.getElementById('gradeResult').innerHTML = `
+                <div class="space-y-2">
+                    <p class="text-base font-bold ${color}">${status}</p>
+                    <p class="text-xs text-slate-600">Jumlah Markah Terkumpul: <b>${total} / 70</b> (${Math.round((total/70)*100)}%)</p>
+                    <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden mt-2">
+                        <div class="bg-indigo-600 h-full transition-all duration-500" style="width: ${(total/70)*100}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Sandbox Simulator
+        function runPythonSim() {
+            const code = document.getElementById('pythonCodeInput').value;
+            const out = document.getElementById('pythonOutput');
+            out.innerText = "Menerima kod Python...\n";
+            try {
+                if(code.includes('print')) {
+                    const lines = code.split('\n');
+                    let logs = [];
+                    lines.forEach(l => {
+                        if(l.trim().startsWith('print')) {
+                            const match = l.match(/print\((.*)\)/);
+                            if(match) logs.push(eval(match[1]));
+                        }
+                    });
+                    out.innerText = logs.length > 0 ? logs.join('\n') : "Kod berjaya dijalankan tanpa sebarang cetakan.";
+                } else {
+                    out.innerText = "Kod dilaksanakan tanpa mesej output.";
+                }
+            } catch(e) {
+                out.innerText = "Ralat Pengaturcaraan: " + e.message;
+            }
+        }
+    </script>
+</body>
+</html>
